@@ -9,8 +9,8 @@ from datetime import datetime
 
 import Body_Metrics
 
-
-MISCALE_MAC = 'DB:8D:FA:AA:67:12'
+text_file = open("config.txt", "r")
+MISCALE_MAC = text_file.readlines()[0]
 
 class ScanProcessor():
 	def GetAge(self, d1):
