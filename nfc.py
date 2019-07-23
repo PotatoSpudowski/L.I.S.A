@@ -9,19 +9,16 @@ def read_nfc():
     lines=nfc_raw()
     return lines
 
-try:
-    while True:
-        myLines=read_nfc()
-        
-        buffer=[]
-        for line in myLines.splitlines():
-            line_content=line.split()
-            if line_content[0].decode('UTF-8') == 'UID':
-                buffer.append(line_content)
-        str=buffer[0]
-        id_str=str[2]+str[3]+str[4]+str[5]
-        print (id_str.decode('UTF-8'))
-
-
-except KeyboardInterrupt:
-        pass
+def get_id():
+    myLines=read_nfc()
+    
+    buffer=[]
+    for line in myLines.splitlines():
+        line_content=line.split()
+        if line_content[0].decode('UTF-8') == 'UID':
+            buffer.append(line_content)
+            str=buffer[0]
+            id_str=str[2]+str[3]+str[4]+str[5]
+            return id_str.decode('UTF-8')
+        else:
+            return False

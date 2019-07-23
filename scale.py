@@ -4,6 +4,7 @@ import binascii
 import time
 import os
 import sys
+import json 
 from bluepy import btle
 from datetime import datetime
 
@@ -64,19 +65,22 @@ class ScanProcessor():
 
                     if unit:
                         lib = Body_Metrics.bodyMetrics(measured, float(height), int(age), sex, int(miimpedance))
-                        print("Weight : " + str(measured))
-                        print("Impedence : " + str(miimpedance))
-                        print("LBM : " + str(lib.getLBMCoefficient()))
-                        print("Body fat percentage : " + str(lib.getFatPercentage()))
-                        print("Water percentage : " + str(lib.getWaterPercentage()))
-                        print("Protein percentage : " + str(lib.getProteinPercentage()))
-                        print("Bone mass : " + str(lib.getBoneMass()))
-                        print("Muscle mass : " + str(lib.getMuscleMass()))
-                        print("Visceral mass : " + str(lib.getVisceralFat()))
-                        print("BMI : " + str(lib.getBMI()))
-                        print("BMR : " + str(lib.getBMI()))
-                        print("Ideal weight : " + str(lib.getIdealWeight()))
-                        print("Body type : " + str(lib.getBodyTypeScale()[int(lib.getBodyType())]))
+                        data = {
+                            "Weight": measured,
+                            "Impedence": miimpedance,
+                            "LBM" : lib.getLBMCoefficient(),
+                            "Body_fat_percentage" : lib.getFatPercentage(),
+                            "Water_percentage" : lib.getWaterPercentage(),
+                            "Protein_percentage" : lib.getProteinPercentage(),
+                            "Bone_mass" : lib.getBoneMass(),
+                            "Muscle_mass" : lib.getMuscleMass(),
+                            "Visceral_mass" : lib.getVisceralFat(),
+                            "BMI" : lib.getBMI(),
+                            "BMR" : lib.getBMR(),
+                            "Body_type" : lib.getBodyTypeScale()[int(lib.getBodyType())]
+                        }
+                        with open('scaleData.json', 'w') as outfile:
+                            json.dump(data, outfile)
                     else:
                         print("Scale is sleeping.")
 
@@ -84,12 +88,8 @@ class ScanProcessor():
             if not dev.scanData:
                 print ('\t(no data)')
             
-def main():
-
-    # while(True):
+def save_json():
     scanner = btle.Scanner().withDelegate(ScanProcessor())
 
     devices = scanner.scan(5)
 
-if __name__ == "__main__":
-    main()

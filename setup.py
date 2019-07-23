@@ -9,7 +9,6 @@ text_file = open("result.txt", "r")
 lines = text_file.readlines()
 for line in lines:
 	if 'MIBCS' in line:
-		print(line)
 		mac_address = line.split()[0]
 		text_file2 = open("config.txt", "w")
 		text_file2.write(mac_address)
