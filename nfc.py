@@ -11,19 +11,16 @@ def read_nfc():
 
 try:
     while True:
-        print("Start")
         myLines=read_nfc()
+        
         buffer=[]
         for line in myLines.splitlines():
-            print(line)
             line_content=line.split()
-            if(not line_content[0] =='UID'):
-                pass
-            else:
+            if line_content[0].decode('UTF-8') == 'UID':
                 buffer.append(line_content)
-        #str=buffer[0]
-        #id_str=str[2]+str[3]+str[4]+str[5]
-        print (buffer)
+        str=buffer[0]
+        id_str=str[2]+str[3]+str[4]+str[5]
+        print (id_str.decode('UTF-8'))
 
 
 except KeyboardInterrupt:
