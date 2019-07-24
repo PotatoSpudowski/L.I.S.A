@@ -12,9 +12,6 @@ import Body_Metrics
 
 text_file = open("config.txt", "r")
 MISCALE_MAC = text_file.readlines()[0]
-height = raw_input("Enter your height : ")
-age = raw_input("Enter your age : ")
-sex = raw_input("Enter your sex : ")
 #height = 170
 #age = 20
 #sex = 'male'

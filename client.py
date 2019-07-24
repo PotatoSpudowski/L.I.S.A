@@ -5,7 +5,7 @@ import argparse
 import ibmiotf.device
 import wiotp.sdk.device
 from configparser import ConfigParser
-from mibcs_test import getMetrics
+
 
 
 def commandProcessor(cmd):
