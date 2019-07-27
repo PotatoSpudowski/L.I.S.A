@@ -4,7 +4,9 @@ import binascii
 import time
 import os
 import sys
-import json 
+import json
+
+
 from bluepy import btle
 from datetime import datetime
 from Distance import getMeanHeight
@@ -14,7 +16,11 @@ import Body_Metrics
 text_file = open("config.txt", "r")
 MISCALE_MAC = text_file.readlines()[0]
 
+
 class ScanProcessor():
+    def __init__(self,variable1,variable2):
+        self.dob=variable1
+        self.sex=variable2
     def GetAge(self, d1):
         d1 = datetime.strptime(d1, "%Y-%m-%d")
         d2 = datetime.strptime(datetime.today().strftime('%Y-%m-%d'),'%Y-%m-%d')
@@ -60,10 +66,9 @@ class ScanProcessor():
 
                     if unit:
                         height = getMeanHeight()
-                        age = 20
-                        sex = "male"
+                        age = self.GetAge(self.dob)
 
-                        lib = Body_Metrics.bodyMetrics(measured, float(height), int(age), sex, int(miimpedance))
+                        lib = Body_Metrics.bodyMetrics(measured, float(height), int(age), self.sex, int(miimpedance))
                         data = {
                             "Weight": measured,
                             "Height": height,
@@ -88,9 +93,8 @@ class ScanProcessor():
             if not dev.scanData:
                 print ('\t(no data)')
             
-def save_json():
-    print("Saving json")
-    scanner = btle.Scanner().withDelegate(ScanProcessor())
+def save_json(dob,sex):
+    scanner = btle.Scanner().withDelegate(ScanProcessor(dob,sex))
 
     devices = scanner.scan(5)
     
